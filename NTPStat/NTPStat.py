@@ -34,17 +34,12 @@ class NTPStat(object):
                 stdout=subprocess.PIPE,
                 close_fds=True)
             output = proc.communicate()[0]
-        except FileNotFoundError as exception:
+        except Exception as exception:
             self.checks_logger.error(
-                'Unable to find ntpstat.')
-            return data
-        except OSError as exception:
-            self.checks_logger.error(
-                'Unable to find ntpstat.'
-                ' Error: {0}'.format(exception.message))
+                'Unable to execute ntpstat.')
             return data
 
-        for line in output.split("\n"):
+        for line in str(output).split("\n"):
             if line.startswith('time'):
                 data['drift'] = float(line.split(' ')[4])
 
