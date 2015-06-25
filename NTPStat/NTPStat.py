@@ -34,6 +34,10 @@ class NTPStat(object):
                 stdout=subprocess.PIPE,
                 close_fds=True)
             output = proc.communicate()[0]
+        except FileNotFoundError as exception:
+            self.checks_logger.error(
+                'Unable to find ntpstat.')
+            return data
         except OSError as exception:
             self.checks_logger.error(
                 'Unable to find ntpstat.'
@@ -61,7 +65,7 @@ if __name__ == '__main__':
 
     while True:
         try:
-            print json.dumps(NTPStat_check.run(), indent=4, sort_keys=True)
+            print (json.dumps(NTPStat_check.run(), indent=4, sort_keys=True))
         except:
             main_checks_logger.exception("Unhandled exception")
         finally:
