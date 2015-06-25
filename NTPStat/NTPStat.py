@@ -39,7 +39,7 @@ class NTPStat(object):
                 'Unable to execute ntpstat.')
             return data
 
-        for line in str(output).split("\n"):
+        for line in output.decode("utf-8").split("\n"):
             if line.startswith('time'):
                 data['drift'] = float(line.split(' ')[4])
 
