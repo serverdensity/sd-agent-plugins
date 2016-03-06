@@ -9,26 +9,29 @@ Setup
 1. Install python-boto `sudo apt-get install python-boto`
 2. Configure your [boto credentials](http://boto.cloudhackers.com/en/latest/boto_config_tut.html):
    for this SD plugin need to create /etc/boto.cfg with the following contents:
-```
-[Credentials]
-aws_access_key_id = YOUR_KEY_ID
-aws_secret_access_key = YOUR_ACCESS_KEY
-```
-And give it secure permisions: `sudo chown sd-agent:sd-agent /etc/boto.cfg ; sudo chmod 0640 /etc/boto.cfg`
-3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`.
+
+     ```
+     [Credentials]
+      aws_access_key_id = YOUR_KEY_ID
+      aws_secret_access_key = YOUR_ACCESS_KEY
+     ```
+    And give it secure permisions: `sudo chown sd-agent:sd-agent /etc/boto.cfg ; sudo chmod 0640 /etc/boto.cfg`
+3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`
 4. Configure the plugin YAML file, for example in `/etc/sd-agent/conf.d/rds.yaml`:
-```
----
-default:
-  eu-west-1:
-    - my_monitored_rds_instance
-    - another_monitored_rds_instnace
-```
+
+    ```
+    ---
+    default:
+      eu-west-1:
+        - my_monitored_rds_instance
+        - another_monitored_rds_instnace
+    ```
 5. Configure the plugin, in `/etc/sd-agent/plugins.cfg`:
-```
-[RDS]
-cfgfile = /etc/sd-agent/conf.d/rds.yaml
-```
+
+    ```
+    [RDS]
+    cfgfile = /etc/sd-agent/conf.d/rds.yaml
+    ```
 6. Restart the agent to apply changes `sudo service sd-agent restart`
 
 Troubleshooting
