@@ -1,0 +1,4 @@
+---
+default:
+  eu-west-1:
+    - sddb
