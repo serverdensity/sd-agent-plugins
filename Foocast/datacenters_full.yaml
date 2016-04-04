@@ -62,3 +62,25 @@ google:
     - location: Quilicura, Chile
   usa-or:
     - location: The Dalles, Oregon
+
+aws:
+  eu-west-1:
+    - location: Dublin, Ireland
+  eu-central-1:
+    - location: Frankfurt, Germany
+  us-east-1:
+    - location: Ashburn, North Virginia, USA
+  us-west-1:
+    - location: North California, USA
+  us-west-2:
+    - location: Oregon, USA
+  ap-southeast-1:
+    - location: Singapore, Singapore
+  ap-southeast-2:
+    - location: Sydney, Australia
+  ap-northeast-1:
+    - location: Tokyo, Japan
+  ap-northeast-2:
+    - location: Seoul, South Korea
+  sa-east-1:
+    - location: Sao Pablo, Brazil
