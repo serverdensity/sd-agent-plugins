@@ -12,8 +12,9 @@ import subprocess
 import time
 import mdstat
 
+
 class Mdadm(object):
-    """ Check the "State" of the controller using output from
+    """ Check the "State" of the md disks using output from
         /proc/mdstat via mdstat https://pypi.python.org/pypi/mdstat/
     """
 
@@ -27,62 +28,29 @@ class Mdadm(object):
         output = {}
         try:
             data = mdstat.parse()
-            for devices in data['devices']:
-                for device in data['devices'][devices]:
-                    try:
-                        output[devices + '_raid_disks'] = data['devices'][devices]['status']['raid_disks']
-                    except KeyError:
-                        pass
-                    try:    
-                        output[devices + '_non_degraded_disks'] = data['devices'][devices]['status']['non_degraded_disks']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_near_copies'] = data['devices'][devices]['status']['near_copies']
-                    except KeyError:
-                        pass                        
-                    try:                       
-                        output[devices + '_blocks'] = data['devices'][devices]['status']['blocks']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_offset_copies'] = data['devices'][devices]['status']['offset_copies']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_sync_request'] = data['devices'][devices]['status']['sync_request']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_far_copies'] = data['devices'][devices]['status']['far_copies']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_synced'] = data['devices'][devices]['status']['synced']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_chunks'] = data['devices'][devices]['status']['chunks']
-                    except KeyError:
-                        pass                        
-                    try:
-                        output[devices + '_super'] = data['devices'][devices]['status']['super']
-                    except KeyError:
-                        pass                                    
-                    if data['devices'][devices]['status']['raid_disks'] != data['devices'][devices]['status']['non_degraded_disks']:
-                        output[devices + '_degraded'] = 'true'
-                    else:
-                        output[devices + '_degraded'] = 'false'
-                    #To output each disk status as 'md0_sda_faulty' 
-                    #for disks in data['devices'][devices]['disks']:
-                        #output[devices + '_' + disks + '_faulty'] = data['devices'][devices]['disks'][disks]['faulty'] 
-        
+            for device in data['devices']:
+                try:
+                    status_dict = data['devices'][device]['status']
+                except:
+                    check_logger.error(
+                        'Device %s status does not exist' % (device, ))
+                    continue
+                for key in status_dict.keys():
+                    output['%s_%s' % (device, key)] = status_dict[key]
+                if data['devices'][device]['status']['raid_disks'] !=\
+                   data['devices'][device]['status']['non_degraded_disks']:
+                    output[device + '_degraded'] = 'true'
+                else:
+                    output[device + '_degraded'] = 'false'
+#                    To output each disk status as 'md0_sda_faulty'
+#                    for disks in data['devices'][devices]['disks']:
+#                        output[devices + '_' + disks + '_faulty'] = data['
+#                            devices'][devices]['disks'][disks]['faulty']
+
         except OSError as exception:
             self.checks_logger.error(
                 'Unable to find mdstat.'
                 ' Error: {0}'.format(exception.message))
-        except KeyError:
-            pass
         return output
 
 
