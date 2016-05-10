@@ -42,10 +42,6 @@ class Mdadm(object):
                     output[device + '_degraded'] = 'true'
                 else:
                     output[device + '_degraded'] = 'false'
-#                    To output each disk status as 'md0_sda_faulty'
-#                    for disks in data['devices'][devices]['disks']:
-#                        output[devices + '_' + disks + '_faulty'] = data['
-#                            devices'][devices]['disks'][disks]['faulty']
 
         except OSError as exception:
             self.checks_logger.error(
