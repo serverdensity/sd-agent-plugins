@@ -9,7 +9,7 @@ Requirements
 
 Installation
 ---
-1. Check if you have pymongo installed. Run:
+1. Check if you have mdstat installed. Run:
   ```
 python
 ```
