@@ -10,7 +10,10 @@ import platform
 import sys
 import subprocess
 import time
-import mdstat
+try:
+    import mdstat
+except ImportError:
+    self.checks_logger.error("You will need to install mdstat via pip install mdstat")
 
 
 class Mdadm(object):
