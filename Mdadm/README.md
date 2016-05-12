@@ -5,6 +5,7 @@ This plugin gets stats from /proc/mdstat
 
 Requirements 
 ---
+* Python 2.6+ 
 * mdstat - https://pypi.python.org/pypi/mdstat/
 
 Installation
@@ -30,7 +31,7 @@ pip install mdstat
 
 Recommended alerts
 ---
-* `md*_degraded` - Not equal to "false"
+* `md*_degraded` - Not equal to "false" where * is equal to your md device number. 
 
 Configuration
 ---
