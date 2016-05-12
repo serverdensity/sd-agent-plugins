@@ -11,16 +11,12 @@ Installation
 ---
 1. Check if you have mdstat installed. Run:
   ```
-python
-```
-  Once the shell appears enter:
-  ```
-import mdstat
+python -mdstat
 ```
   When you hit return, if the command completes and you get no errors then you have the module already installed and can skip to step 3 below.
 Otherwise you'll get the following error:
   ```
-ImportError: No module named mdstat
+/usr/bin/python: No module named mdstat
 ```
 
 2. Install mdstat:
