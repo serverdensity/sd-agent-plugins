@@ -13,7 +13,8 @@ import time
 try:
     import mdstat
 except ImportError:
-    self.checks_logger.error("You will need to install mdstat via pip install mdstat")
+    self.checks_logger.error(
+        "You will need to install mdstat via pip install mdstat")
 
 
 class Mdadm(object):
