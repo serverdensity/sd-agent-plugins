@@ -1,7 +1,7 @@
 mdadm Basic Monitor
 ===
 
-This plugin gets stats from /proc/mdstat
+This plugin gets stats from /proc/mdstat and for each md* device returns a 1 if the amount of raid disks does not equal the amount of non degraded disks. If the amount of raid disks equals the amount of non degraded disks a 0 is returned 
 
 Requirements 
 ---
@@ -31,7 +31,7 @@ pip install mdstat
 
 Recommended alerts
 ---
-* `md*_degraded` - Not equal to "false" where * is equal to your md device number. 
+* `md*_degraded` - Not equal to 0 where * is equal to your md device number. 
 
 Configuration
 ---
