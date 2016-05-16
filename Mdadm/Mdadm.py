@@ -43,9 +43,9 @@ class Mdadm(object):
                     output['%s_%s' % (device, key)] = status_dict[key]
                 if data['devices'][device]['status']['raid_disks'] !=\
                    data['devices'][device]['status']['non_degraded_disks']:
-                    output[device + '_degraded'] = 'true'
+                    output[device + '_degraded'] = 1
                 else:
-                    output[device + '_degraded'] = 'false'
+                    output[device + '_degraded'] = 0
 
         except OSError as exception:
             self.checks_logger.error(
