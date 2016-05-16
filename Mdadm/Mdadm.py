@@ -10,11 +10,6 @@ import platform
 import sys
 import subprocess
 import time
-try:
-    import mdstat
-except ImportError:
-    self.checks_logger.error(
-        "You will need to install mdstat via pip install mdstat")
 
 
 class Mdadm(object):
@@ -29,6 +24,11 @@ class Mdadm(object):
         self.version = platform.python_version_tuple()
 
     def run(self):
+        try:
+            import mdstat
+        except ImportError:
+            self.checks_logger.error(
+                "You will need to install mdstat via pip install mdstat")
         output = {}
         try:
             data = mdstat.parse()
