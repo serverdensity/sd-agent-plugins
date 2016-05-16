@@ -11,6 +11,7 @@ import sys
 import subprocess
 import time
 
+
 class Mdadm(object):
     """ Check the "State" of the md disks using output from
         /proc/mdstat via mdstat https://pypi.python.org/pypi/mdstat/
@@ -22,13 +23,12 @@ class Mdadm(object):
         self.raw_config = raw_config
         self.version = platform.python_version_tuple()
 
-
     def run(self):
         try:
             import mdstat
         except ImportError:
             self.checks_logger.error(
-                "You will need to install mdstat via pip install mdstat")        
+                "You will need to install mdstat via pip install mdstat")
         output = {}
         try:
             data = mdstat.parse()
