@@ -10,12 +10,6 @@ import platform
 import sys
 import subprocess
 import time
-try:
-    import mdstat
-except ImportError:
-    self.checks_logger.error(
-        "You will need to install mdstat via pip install mdstat")
-
 
 class Mdadm(object):
     """ Check the "State" of the md disks using output from
@@ -28,7 +22,13 @@ class Mdadm(object):
         self.raw_config = raw_config
         self.version = platform.python_version_tuple()
 
+
     def run(self):
+        try:
+            import mdstat
+        except ImportError:
+            self.checks_logger.error(
+                "You will need to install mdstat via pip install mdstat")        
         output = {}
         try:
             data = mdstat.parse()
