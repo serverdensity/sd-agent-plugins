@@ -1,5 +1,7 @@
 # MySQL monitoring  - Linux, Mac and FreeBSD
 
+**_This plugin has been deprecated in favour of the [official MySQL plugin](https://support.serverdensity.com/hc/en-us/articles/211821268)_**
+
 ## 1. Dependencies
 
 Our MySQL plugin uses MySQLdb module to interact with MySQL. You must have this installed to use the MySQL monitoring functionality.

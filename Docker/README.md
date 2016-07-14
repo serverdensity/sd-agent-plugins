@@ -1,5 +1,7 @@
 Docker Monitor
 ===
+**_This plugin has been deprecated in favour of the [official Docker plugin](https://support.serverdensity.com/hc/en-us/articles/213509068)_**
+
 This plugin is for [Docker](https://www.docker.com/). It is based on the
 detailed list of metrics mentioned on [Docker Run Metrics](https://docs.docker.com/articles/runmetrics/).
 

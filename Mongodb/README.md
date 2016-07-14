@@ -1,5 +1,6 @@
 MongoDB Plugin
 ===
+**_This plugin has been deprecated in favour of the [official MongoDB plugin](https://support.serverdensity.com/hc/en-us/articles/212544257)_**
 
 This plugin gets stats from a [MongoDB server](http://www.mongodb.com)
 
