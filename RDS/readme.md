@@ -7,32 +7,16 @@ Setup
 -----
 
 1. Install python-boto `sudo apt-get install python-boto`
-2. Configure your [boto credentials](http://boto.cloudhackers.com/en/latest/boto_config_tut.html):
-   for this SD plugin need to create /etc/boto.cfg with the following contents:
-
+2. Configure the plugin in `/etc/sd-agent/plugins.cfg` 
      ```
-     [Credentials]
+     [RDS]
       aws_access_key_id = YOUR_KEY_ID
       aws_secret_access_key = YOUR_ACCESS_KEY
+      endpoint = YOUR_ENDPOINT
      ```
-    And give it secure permisions: `sudo chown sd-agent:sd-agent /etc/boto.cfg ; sudo chmod 0640 /etc/boto.cfg`
-3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`
-4. Configure the plugin YAML file, for example in `/etc/sd-agent/conf.d/rds.yaml`:
 
-    ```
-    ---
-    default:
-      eu-west-1:
-        - my_monitored_rds_instance
-        - another_monitored_rds_instnace
-    ```
-5. Configure the plugin, in `/etc/sd-agent/plugins.cfg`:
-
-    ```
-    [RDS]
-    cfgfile = /etc/sd-agent/conf.d/rds.yaml
-    ```
-6. Restart the agent to apply changes `sudo service sd-agent restart`
+3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure. 
+4. Restart the agent to apply changes `sudo service sd-agent restart`
 
 Troubleshooting
 ---------------
@@ -40,24 +24,30 @@ Troubleshooting
 You can run the script directly from the command line to collect the metrics:
 
 ```
-$ python RDS.py         
+$ python RDS.py -k YOUR_ACCESS_KEY -p YOUR_SECRET -e YOUR_ENDPOINT         
 {
-    "eu-west-1_sddb_BinLogDiskUsage": 817.8, 
-    "eu-west-1_sddb_CPUUtilization": 18.31, 
-    "eu-west-1_sddb_DatabaseConnections": 0.0, 
-    "eu-west-1_sddb_DiskQueueDepth": 0.0, 
-    "eu-west-1_sddb_ReadIOPS": 0.22, 
-    "eu-west-1_sddb_ReadLatency": 0.08, 
-    "eu-west-1_sddb_ReadThroughput": 136.54, 
-    "eu-west-1_sddb_ReplicaLag": 0.0, 
-    "eu-west-1_sddb_SwapUsage": 128614.4, 
-    "eu-west-1_sddb_TotalDiskUsage": 5368709120.0, 
-    "eu-west-1_sddb_TotalMemory": 660351221.76, 
-    "eu-west-1_sddb_UsedDiskUsage": 5368709101.69, 
-    "eu-west-1_sddb_UsedMemory": 660348572.86, 
-    "eu-west-1_sddb_WriteIOPS": 0.26, 
-    "eu-west-1_sddb_WriteLatency": 1.05, 
-    "eu-west-1_sddb_WriteThroughput": 2648.9
+  "somedbinstance_total_diskUsage": 5368709120.0,
+  "somedbinstance_database_connections": 0.0,
+  "somedbinstance_used_memory": 466810880.0,
+  "somedbinstance_free_storage_space": 4446867456.0,
+  "somedbinstance_network_transmit_throughput": 2634.76,
+  "somedbinstance_write_latency": 0.41,
+  "somedbinstance_read_latency": 0.2,
+  "somedbinstance_cpuutilization": 1.33,
+  "somedbinstance_maximum_used_transaction_ids": 616.0,
+  "somedbinstance_read_iops": 0.55,
+  "somedbinstance_write_throughput": 8328.87,
+  "somedbinstance_somedbinstance": 606930944.0,
+  "somedbinstance_oldest_replication_slot": -1.0,
+  "somedbinstance_network_received_throughput": 178.44,
+  "somedbinstance_write_iops": 0.78,
+  "somedbinstance_disk_queue_depth": 0.0,
+  "somedbinstance_transaction_logs_disk_usage": 570433832.0,
+  "somedbinstance_transaction_logs_generation": 0.0,
+  "somedbinstance_used_diskusage": 921841664.0,
+  "somedbinstance_total_memory": 1073741824,
+  "somedbinstance_read_throughput": 341.32,
+  "somedbinstance_swap_usage": 28672.0
 }
 ```
 

@@ -1,4 +1,3 @@
-
 """
 Server Density plugin
 RDS monitoring script, based on
@@ -135,30 +134,39 @@ class RDS(object):
 
         # RDS metrics http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/rds-metricscollected.html
         self.metrics = {
-            'BinLogDiskUsage': 'bin_log_disk_usage',                        # The amount of disk space occupied by binary logs on the master. Only on MySQL read replicas. Units: Bytes
+            'BinLogDiskUsage': 'bin_log_disk_usage',                        # The amount of disk space occupied by binary logs on the master. Only on MySQL read replicas. Units: megabytes
             'CPUCreditBalance': 'cpucredit_balance',                        # The number of CPU credits that an instance has accumulated. Only valid for T2 instances
             'CPUCreditUsage': 'cpucredit_usage',                            # The number of CPU credits consumed during the specified period. Only valid for T2 instances.
             'CPUUtilization': 'cpuutilization',                             # The percentage of CPU utilization.  Units: Percent
             'DatabaseConnections': 'database_connections',                  # The number of database connections in use.  Units: Count
             'DiskQueueDepth': 'disk_queue_depth',                           # The number of outstanding IOs (read/write requests) waiting to access the disk.  Units: Count
-            'FreeStorageSpace': 'free_storage_space',                       # The amount of available storage space.  Units: Bytes
-            'FreeableMemory': 'freeable_memory',                            # The amount of available random access memory.  Units: Bytes
+            'FreeStorageSpace': 'free_storage_space',                       # The amount of available storage space.  Units: megabytes
+            'FreeableMemory': 'freeable_memory',                            # The amount of available random access memory.  Units: megabytes
             'MaximumUsedTransactionIDs': 'maximum_used_transaction_ids',
-            'NetworkReceiveThroughput': 'network_received_throughput',      # The incoming (Receive) network traffic on the DB instance. Units: Bytes/second
-            'NetworkTransmitThroughput': 'network_transmit_throughput',     # The outgoing (Transmit) network traffic on the DB instance. Units: Bytes/second
+            'NetworkReceiveThroughput': 'network_received_throughput',      # The incoming (Receive) network traffic on the DB instance. Units: megabytes/second
+            'NetworkTransmitThroughput': 'network_transmit_throughput',     # The outgoing (Transmit) network traffic on the DB instance. Units: megabytes/second
             'OldestReplicationSlotLag': 'oldest_replication_slot',
             'ReadIOPS': 'read_iops',                                        # The average number of disk I/O operations per second.  Units: Count/Second
             'ReadLatency': 'read_latency',                                  # The average amount of time taken per disk I/O operation.  Units: Seconds
-            'ReadThroughput': 'read_throughput',                            # The average number of bytes read from disk per second.  Units: Bytes/Second
+            'ReadThroughput': 'read_throughput',                            # The average number of megabytes read from disk per second.  Units: megabytes/Second
             'ReplicaLag': 'replica_lag',                                    # The amount of time a Read Replica DB Instance lags behind the source DB Instance. Only on replicas. Units: Seconds
-            'SwapUsage': 'swap_usage',                                      # The amount of swap space used on the DB Instance.  Units: Bytes
+            'SwapUsage': 'swap_usage',                                      # The amount of swap space used on the DB Instance.  Units: megabytes
             'TransactionLogsDiskUsage': 'transaction_logs_disk_usage',
             'TransactionLogsGeneration': 'transaction_logs_generation',
             'WriteIOPS': 'write_iops',                                      # The average number of disk I/O operations per second.  Units: Count/Second
             'WriteLatency': 'write_latency',                                # The average amount of time taken per disk I/O operation.  Units: Seconds
-            'WriteThroughput': 'write_throughput'                           # The average number of bytes written to disk per second.  Units: Bytes/Second
+            'WriteThroughput': 'write_throughput'                           # The average number of megabytes written to disk per second.  Units: megabytes/Second
 
         }
+
+        self.byte_related = [
+            'BinLogDiskUsage',
+            'NetworkReceiveThroughput',
+            'NetworkTransmitThroughput',
+            'ReadThroughput',
+            'SwapUsage',
+            'WriteThroughput'
+        ]
 
     def preliminaries(self):
         self.config = {}
@@ -184,25 +192,27 @@ class RDS(object):
             rds = BotoRDS(**self.config)
         except NoDBinstanceError as e:
             self.checks_logger.error('RDS: {}'.format(e.message))
-
         for metric, values in self.metrics.items():
+
             try:
                 stats = rds.get_metric(metric)
                 if metric == 'FreeableMemory':
                     info = rds.get_info()
                     try:
-                        memory = self.db_classes[info.instance_class] * 1024 ** 3
-                        data['{0}_{1}'.format(rds.identifier, 'used_memory')] = memory - stats
+                        memory = self.db_classes[info.instance_class] * 1000
+                        data['{0}_{1}'.format(rds.identifier, 'used_memory')] = memory - (stats / 10**6)
                         data['{0}_{1}'.format(rds.identifier, 'total_memory')] = memory
-                        data['{0}_{0}'.format(rds.identifier, self.metrics[metric])] = stats
+                        data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats / 10**6
                     except IndexError as e:
                         self.checks_logger.error('RDS: Unknown DB instance class "{}"'.format(info.instance_class))
                 elif metric == 'FreeStorageSpace':
                     info = rds.get_info()
-                    storage = float(info.allocated_storage) * 1024 ** 3
-                    data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats
-                    data['{0}_{1}'.format(rds.identifier, 'used_diskusage')] = storage - stats
-                    data['{0}_{1}'.format(rds.identifier, 'total_diskUsage')] = storage
+                    storage = float(info.allocated_storage) * 1000
+                    data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats / 10**6
+                    data['{0}_{1}'.format(rds.identifier, 'used_diskusage')] = storage - (stats / 10**6)
+                    data['{0}_{1}'.format(rds.identifier, 'total_diskusage')] = storage
+                elif metric in self.byte_related:
+                    data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats / 10**6
                 else:
                     data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats
             except NoMetricError as e:
