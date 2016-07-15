@@ -44,7 +44,8 @@ class BotoRDS(object):
             )
             self.info = rds_conn.get_all_dbinstances(self.identifier)[0]
         except IndexError:
-            raise NoDBinstanceError('No database instance found with identifier: {}'.format(identifier))
+            msg = 'No database instance found with identifier: {}'
+            raise NoDBinstanceError(msg.format(identifier))
 
     def get_info(self):
         """Get RDS instance info"""
@@ -61,7 +62,8 @@ class BotoRDS(object):
                     aws_secret_access_key=self.aws_secret
                 )
                 result[reg] = rds.get_all_dbinstances()
-            except (boto.provider.ProfileNotFoundError, boto.exception.BotoServerError):
+            except (boto.provider.ProfileNotFoundError,
+                    boto.exception.BotoServerError):
                 result = {}
 
         return result
@@ -89,7 +91,8 @@ class BotoRDS(object):
             else:
                 result = '%.2f' % float(result[0]['Average'])
         else:
-            raise NoMetricError('There are no metric for {} in {}'.format(metric, self.identifier))
+            raise NoMetricError('There are no metric for {} in {}'.format(
+                                metric, self.identifier))
         return float(result)
 
 
@@ -101,7 +104,8 @@ class RDS(object):
         self.raw_config = raw_config
 
         # DB instance classes as listed on
-        # http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
+        # http://docs.aws.amazon.com/
+        # AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
         self.db_classes = {
             'db.t1.micro': 0.615,
             'db.m1.small': 1.7,
@@ -132,31 +136,79 @@ class RDS(object):
             'db.cr1.8xlarge': 244,
         }
 
-        # RDS metrics http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/rds-metricscollected.html
+        # RDS metrics http://docs.aws.amazon.com/
+        # AmazonCloudWatch/latest/DeveloperGuide/rds-metricscollected.html
         self.metrics = {
-            'BinLogDiskUsage': 'bin_log_disk_usage',                        # The amount of disk space occupied by binary logs on the master. Only on MySQL read replicas. Units: megabytes
-            'CPUCreditBalance': 'cpucredit_balance',                        # The number of CPU credits that an instance has accumulated. Only valid for T2 instances
-            'CPUCreditUsage': 'cpucredit_usage',                            # The number of CPU credits consumed during the specified period. Only valid for T2 instances.
-            'CPUUtilization': 'cpuutilization',                             # The percentage of CPU utilization.  Units: Percent
-            'DatabaseConnections': 'database_connections',                  # The number of database connections in use.  Units: Count
-            'DiskQueueDepth': 'disk_queue_depth',                           # The number of outstanding IOs (read/write requests) waiting to access the disk.  Units: Count
-            'FreeStorageSpace': 'free_storage_space',                       # The amount of available storage space.  Units: megabytes
-            'FreeableMemory': 'freeable_memory',                            # The amount of available random access memory.  Units: megabytes
+            # The amount of disk space occupied by binary logs on the master.
+            # Only on MySQL read replicas. Units: megabytes
+            'BinLogDiskUsage': 'bin_log_disk_usage',
+
+            # The number of CPU credits that an instance has accumulated.
+            # Only valid for T2 instances
+            'CPUCreditBalance': 'cpucredit_balance',
+
+            # The number of CPU credits consumed during the specified period.
+            # Only valid for T2 instances.
+            'CPUCreditUsage': 'cpucredit_usage',
+
+            # The percentage of CPU utilization.  Units: Percent
+            'CPUUtilization': 'cpuutilization',
+
+            # The number of database connections in use.  Units: Count
+            'DatabaseConnections': 'database_connections',
+
+            # The number of outstanding IOs (read/write requests) waiting
+            # to access the disk.  Units: Count
+            'DiskQueueDepth': 'disk_queue_depth',
+
+            # The amount of available storage space.  Units: megabytes
+            'FreeStorageSpace': 'free_storage_space',
+
+            # The amount of available random access memory.  Units: megabytes
+            'FreeableMemory': 'freeable_memory',
             'MaximumUsedTransactionIDs': 'maximum_used_transaction_ids',
-            'NetworkReceiveThroughput': 'network_received_throughput',      # The incoming (Receive) network traffic on the DB instance. Units: megabytes/second
-            'NetworkTransmitThroughput': 'network_transmit_throughput',     # The outgoing (Transmit) network traffic on the DB instance. Units: megabytes/second
+
+            # The incoming (Receive) network traffic on the DB instance.
+            # Units: megabytes/second
+            'NetworkReceiveThroughput': 'network_received_throughput',
+
+            # The outgoing (Transmit) network traffic on the DB instance.
+            # Units: megabytes/second
+            'NetworkTransmitThroughput': 'network_transmit_throughput',
             'OldestReplicationSlotLag': 'oldest_replication_slot',
-            'ReadIOPS': 'read_iops',                                        # The average number of disk I/O operations per second.  Units: Count/Second
-            'ReadLatency': 'read_latency',                                  # The average amount of time taken per disk I/O operation.  Units: Seconds
-            'ReadThroughput': 'read_throughput',                            # The average number of megabytes read from disk per second.  Units: megabytes/Second
-            'ReplicaLag': 'replica_lag',                                    # The amount of time a Read Replica DB Instance lags behind the source DB Instance. Only on replicas. Units: Seconds
-            'SwapUsage': 'swap_usage',                                      # The amount of swap space used on the DB Instance.  Units: megabytes
+
+            # The average number of disk I/O operations per second.
+            # Units: Count/Second
+            'ReadIOPS': 'read_iops',
+
+            # The average amount of time taken per disk I/O operation.
+            # Units: Seconds
+            'ReadLatency': 'read_latency',
+
+            # The average number of megabytes read from disk per second.
+            # Units: megabytes/Second
+            'ReadThroughput': 'read_throughput',
+
+            # The amount of time a Read Replica DB Instance lags behind the
+            # source DB Instance. Only on replicas. Units: Seconds
+            'ReplicaLag': 'replica_lag',
+
+            # The amount of swap space used on the DB Instance.
+            # Units: megabytes
+            'SwapUsage': 'swap_usage',
             'TransactionLogsDiskUsage': 'transaction_logs_disk_usage',
             'TransactionLogsGeneration': 'transaction_logs_generation',
-            'WriteIOPS': 'write_iops',                                      # The average number of disk I/O operations per second.  Units: Count/Second
-            'WriteLatency': 'write_latency',                                # The average amount of time taken per disk I/O operation.  Units: Seconds
-            'WriteThroughput': 'write_throughput'                           # The average number of megabytes written to disk per second.  Units: megabytes/Second
 
+            # The average number of disk I/O operations per second.
+            # Units: Count/Second
+            'WriteIOPS': 'write_iops',
+
+            # The average amount of time taken per disk I/O operation.
+            # Units: Seconds
+            'WriteLatency': 'write_latency',
+            # The average number of megabytes written to disk per second.
+            # Units: megabytes/Second
+            'WriteThroughput': 'write_throughput'
         }
 
         self.byte_related = [
@@ -165,7 +217,9 @@ class RDS(object):
             'NetworkTransmitThroughput',
             'ReadThroughput',
             'SwapUsage',
-            'WriteThroughput'
+            'WriteThroughput',
+            'FreeableMemory',
+            'FreeStorageSpace'
         ]
 
     def preliminaries(self):
@@ -173,12 +227,16 @@ class RDS(object):
         try:
             endpoint = self.raw_config['RDS']['endpoint']
             identifier, _, region, _, _, _ = endpoint.split('.')
-            self.config['aws_key'] = self.raw_config['RDS']['aws_access_key_id']
-            self.config['aws_secret'] = self.raw_config['RDS']['aws_secret_access_key']
+            aws_secret = self.raw_config['RDS']['aws_secret_access_key']
+            aws_key = self.raw_config['RDS']['aws_access_key_id']
+
+            self.config['aws_key'] = aws_key
+            self.config['aws_secret'] = aws_secret
             self.config['identifier'] = identifier
             self.config['region'] = region
         except IndexError as e:
-            self.checks_logger.error('RDS: Failed to read configuration file: {}'.format(e.message))
+            self.checks_logger.error(
+                'RDS: Failed to read configuration file: {}'.format(e.message))
             return False
         return True
 
@@ -196,27 +254,39 @@ class RDS(object):
 
             try:
                 stats = rds.get_metric(metric)
+                inst = rds.identifier
+                if metric in self.byte_related:
+                    # formatting to megabytes
+                    stats = stats / 10**6
+
                 if metric == 'FreeableMemory':
                     info = rds.get_info()
                     try:
                         memory = self.db_classes[info.instance_class] * 1000
-                        data['{0}_{1}'.format(rds.identifier, 'used_memory')] = memory - (stats / 10**6)
-                        data['{0}_{1}'.format(rds.identifier, 'total_memory')] = memory
-                        data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats / 10**6
+                        used_mem = memory - stats
+                        mem_name = self.metrics[metric]
+                        data['{0}_{1}'.format(inst, 'used_memory')] = used_mem
+                        data['{0}_{1}'.format(inst, 'total_memory')] = memory
+                        data['{0}_{1}'.format(inst, mem_name)] = stats
                     except IndexError as e:
-                        self.checks_logger.error('RDS: Unknown DB instance class "{}"'.format(info.instance_class))
+                        msg = 'RDS: Unknown DB instance class "{}"'
+                        self.checks_logger.error(
+                            msg.format(info.instance_class)
+                        )
                 elif metric == 'FreeStorageSpace':
                     info = rds.get_info()
                     storage = float(info.allocated_storage) * 1000
-                    data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats / 10**6
-                    data['{0}_{1}'.format(rds.identifier, 'used_diskusage')] = storage - (stats / 10**6)
-                    data['{0}_{1}'.format(rds.identifier, 'total_diskusage')] = storage
+                    used = storage - stats
+                    data['{0}_{1}'.format(inst, self.metrics[metric])] = stats
+                    data['{0}_{1}'.format(inst, 'used_diskusage')] = used
+                    data['{0}_{1}'.format(inst, 'total_diskusage')] = storage
                 elif metric in self.byte_related:
-                    data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats / 10**6
+                    data['{0}_{1}'.format(inst, self.metrics[metric])] = stats
                 else:
-                    data['{0}_{1}'.format(rds.identifier, self.metrics[metric])] = stats
+                    data['{0}_{1}'.format(inst, self.metrics[metric])] = stats
             except NoMetricError as e:
-                self.checks_logger.info('RDS: {} was not available'.format(metric))
+                msg = 'RDS: {} was not available'
+                self.checks_logger.info(msg.format(metric))
 
         return data
 
