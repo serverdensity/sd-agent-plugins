@@ -225,15 +225,11 @@ class RDS(object):
     def preliminaries(self):
         self.config = {}
         try:
-            # endpoint = self.raw_config['RDS']['endpoint']
-            # identifier, _, region, _, _, _ = endpoint.split('.')
             aws_secret = self.raw_config['RDS']['aws_secret_access_key']
             aws_key = self.raw_config['RDS']['aws_access_key_id']
 
             self.config['aws_key'] = aws_key
             self.config['aws_secret'] = aws_secret
-            # self.config['identifier'] = identifier
-            # self.config['region'] = region
         except IndexError as e:
             self.checks_logger.error(
                 'RDS: Failed to read configuration file: {}'.format(e.message))
