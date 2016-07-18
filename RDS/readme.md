@@ -5,6 +5,8 @@ This plugin allows to monitor AWS RDS instances. It is based on the [Percona Mon
 
 Every minute it pulls the 2 minute average from Cloudwatch and posts that to Server Density. The reason it pulls a 2 minute average rather than a 1 minute average is that when pulling a 1 minute average CPU utilization is not available. 
 
+In the configuration you can get data from multiple endpoints by separating the endpoints through a comma. However, due to the nature of Boto making a request for each metric it's advisable to not have too many endpoints to allow the agent to make postbacks every minute. 
+
 Setup
 -----
 
@@ -14,7 +16,7 @@ Setup
      [RDS]
       aws_access_key_id = YOUR_KEY_ID
       aws_secret_access_key = YOUR_ACCESS_KEY
-      endpoints = YOUR_ENDPOINT
+      endpoints = RDS_ENDPOINT1,RDS_ENDPOINT2
      ```
 
 3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure. 
