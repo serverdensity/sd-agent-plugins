@@ -3,6 +3,8 @@ AWS RDS Server Density plugin
 
 This plugin allows to monitor AWS RDS instances. It is based on the [Percona Monitoring Tools](https://github.com/percona/percona-monitoring-plugins/blob/master/cacti/scripts/ss_get_rds_stats.py) and uses [Python Boto](http://boto.cloudhackers.com/en/latest/) to query AWS CloudWatch.
 
+Every minute it pulls the 2 minute average from Cloudwatch and posts that to Server Density. The reason it pulls a 2 minute average rather than a 1 minute average is that when pulling a 1 minute average CPU utilization is not available. 
+
 Setup
 -----
 
@@ -12,7 +14,7 @@ Setup
      [RDS]
       aws_access_key_id = YOUR_KEY_ID
       aws_secret_access_key = YOUR_ACCESS_KEY
-      endpoint = YOUR_ENDPOINT
+      endpoints = YOUR_ENDPOINT
      ```
 
 3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure. 

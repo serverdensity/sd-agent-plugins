@@ -29,7 +29,7 @@ class BotoRDS(object):
 
     """RDS connection class"""
 
-    def __init__(self, region, aws_key, aws_secret, identifier=None):
+    def __init__(self, identifier, region, aws_key, aws_secret):
         """Get RDS instance details"""
         self.region = region
         self.identifier = identifier
@@ -222,36 +222,32 @@ class RDS(object):
             'FreeStorageSpace'
         ]
 
+
+
     def preliminaries(self):
         self.config = {}
         try:
-            endpoint = self.raw_config['RDS']['endpoint']
-            identifier, _, region, _, _, _ = endpoint.split('.')
+            # endpoint = self.raw_config['RDS']['endpoint']
+            # identifier, _, region, _, _, _ = endpoint.split('.')
             aws_secret = self.raw_config['RDS']['aws_secret_access_key']
             aws_key = self.raw_config['RDS']['aws_access_key_id']
 
             self.config['aws_key'] = aws_key
             self.config['aws_secret'] = aws_secret
-            self.config['identifier'] = identifier
-            self.config['region'] = region
+            # self.config['identifier'] = identifier
+            # self.config['region'] = region
         except IndexError as e:
             self.checks_logger.error(
                 'RDS: Failed to read configuration file: {}'.format(e.message))
             return False
         return True
 
-    def run(self):
-        if not self.preliminaries():
-            return {}
+    def get_identifier_region(self, endpoint):
+        identifier, _, region, _, _, _ = endpoint.split('.')
+        return identifier, region
 
-        data = {}
-
-        try:
-            rds = BotoRDS(**self.config)
-        except NoDBinstanceError as e:
-            self.checks_logger.error('RDS: {}'.format(e.message))
+    def fetch_stats(self, data, rds):
         for metric, values in self.metrics.items():
-
             try:
                 stats = rds.get_metric(metric)
                 inst = rds.identifier
@@ -285,8 +281,28 @@ class RDS(object):
                 else:
                     data['{0}_{1}'.format(inst, self.metrics[metric])] = stats
             except NoMetricError as e:
-                msg = 'RDS: {} was not available'
-                self.checks_logger.info(msg.format(metric))
+                msg = 'RDS: {} was not available for {}'
+                self.checks_logger.info(msg.format(metric, rds.identifier))
+
+    def run(self):
+        if not self.preliminaries():
+            return {}
+
+        data = {}
+
+        endpoints = self.raw_config['RDS']['endpoints']
+        endpoints = endpoints.split(',')
+        for endpoint in endpoints:
+            identifier, region = self.get_identifier_region(endpoint)
+            try:
+                rds = BotoRDS(identifier, region, **self.config)
+            except NoDBinstanceError as e:
+                self.checks_logger.error('RDS: {}'.format(e.message))
+
+            # mutable dictionary
+            self.fetch_stats(data, rds)
+
+
 
         return data
 
@@ -299,14 +315,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Configuration input')
     parser.add_argument('-k', dest='key', help='AWS access key')
     parser.add_argument('-p', dest='passw', help='AWS secret access key')
-    parser.add_argument('-e', dest='endpoint', help='Endpoint for database')
+    parser.add_argument('-e', dest='endpoints', help='Endpoint for database')
     args = parser.parse_args()
 
     raw_agent_config = {
         'RDS': {
             'aws_access_key_id': args.key,
             'aws_secret_access_key': args.passw,
-            'endpoint': args.endpoint
+            'endpoints': args.endpoints
         }
     }
 
