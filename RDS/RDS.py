@@ -292,9 +292,9 @@ class RDS(object):
                 rds = BotoRDS(identifier, region, **self.config)
             except NoDBinstanceError as e:
                 self.checks_logger.error('RDS: {}'.format(e.message))
-
-            # mutable dictionary
-            self.fetch_stats(data, rds)
+            else:
+                # mutable dictionary
+                self.fetch_stats(data, rds)
 
         return data
 
