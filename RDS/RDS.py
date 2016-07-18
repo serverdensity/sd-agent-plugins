@@ -222,8 +222,6 @@ class RDS(object):
             'FreeStorageSpace'
         ]
 
-
-
     def preliminaries(self):
         self.config = {}
         try:
@@ -301,8 +299,6 @@ class RDS(object):
 
             # mutable dictionary
             self.fetch_stats(data, rds)
-
-
 
         return data
 
