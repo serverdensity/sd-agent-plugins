@@ -35,7 +35,9 @@ class BotoELB(object):
                 aws_access_key_id=self.aws_key,
                 aws_secret_access_key=self.aws_secret
             )
-            elb_conn.get_all_load_balancers(load_balancer_names=[self.identifier])[0]
+            elb_conn.get_all_load_balancers(
+                load_balancer_names=[self.identifier]
+            )[0]
         except IndexError:
             msg = 'No loadbalancer found with identifier: {}'
             raise NoDBinstanceError(msg.format(identifier))
@@ -163,7 +165,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Configuration input')
     parser.add_argument('-k', dest='key', help='AWS access key')
     parser.add_argument('-p', dest='passw', help='AWS secret access key')
-    parser.add_argument('-e', dest='elb_identifier_region', help='Endpoint for database')
+    parser.add_argument(
+        '-e',
+        dest='elb_identifier_region',
+        help='Endpoint for database'
+    )
+
     args = parser.parse_args()
 
     raw_agent_config = {
