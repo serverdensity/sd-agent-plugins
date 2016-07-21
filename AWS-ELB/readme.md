@@ -15,8 +15,8 @@ You can also find more information about the metrics that [ELB provides](http://
 2. Configure the plugin in `/etc/sd-agent/plugins.cfg` 
     ```
     [ELB]
-    aws_access_key_id: AKIAJHHZNOGOZFCGHIRQ
-    aws_secret_access_key: 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
+    aws_access_key_id: ACCESS_TOKEN
+    aws_secret_access_key: SECRET
     elb_identifier_region: ELB_INSTANCE:REGION,ELB_INSTANCE:REGION
     ```
 3. Drop the ELB.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure. 
