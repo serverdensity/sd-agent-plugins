@@ -15,6 +15,7 @@ import datetime
 import boto
 import boto.rds
 import boto.ec2.cloudwatch
+from boto.exception import BotoServerError
 
 
 class NoDBinstanceError(Exception):
@@ -292,6 +293,9 @@ class RDS(object):
                 rds = BotoRDS(identifier, region, **self.config)
             except NoDBinstanceError as e:
                 self.checks_logger.error('RDS: {}'.format(e.message))
+            except BotoServerError as e:
+                msg = 'Request invalid: {}'
+                self.checks_logger.exception(msg.format(e.message))
             else:
                 # mutable dictionary
                 self.fetch_stats(data, rds)
