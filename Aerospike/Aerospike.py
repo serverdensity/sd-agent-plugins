@@ -26,7 +26,7 @@ class Aerospike(object):
             for namespace in self.raw_config['Aerospike'].get('namespaces').split(','):
                 self.namespaces.append(namespace.strip())
 
-    def __get_dict(self, data):
+    def __get_dict(self, data, name_prefix=''):
 
         data_dict = {}
         data_splits = data.split(';')
@@ -53,7 +53,7 @@ class Aerospike(object):
                     # fail and move on
                     pass
 
-            data_dict[name] = value
+            data_dict[name_prefix + name] = value
 
         return data_dict
 
@@ -74,8 +74,7 @@ class Aerospike(object):
             for namespace in self.namespaces:
                 namespace_statistics = client.info_node(host=(self.host, self.port), command='namespace/' + namespace)
                 namespace_statistics = namespace_statistics[len('namespace/' + namespace):].strip()    # remove title
-                aerospike_stats['namespace-' + namespace] = {}
-                aerospike_stats['namespace-' + namespace].update(self.__get_dict(namespace_statistics))
+                aerospike_stats.update(self.__get_dict(namespace_statistics, 'ns:' + namespace + '-'))
         except:
             aerospike_stats['failed'] = True
 
