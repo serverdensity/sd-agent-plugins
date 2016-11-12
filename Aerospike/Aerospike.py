@@ -9,7 +9,6 @@ import json
 import logging
 import sys
 import time
-import aerospike
 
 
 class Aerospike(object):
@@ -22,8 +21,9 @@ class Aerospike(object):
         self.host = self.raw_config['Aerospike'].get('host', 'localhost')
         self.port = int(self.raw_config['Aerospike'].get('port', '3000'))
         self.namespaces = []
-        if 'namespaces' in self.raw_config['Aerospike'] and len(self.raw_config['Aerospike']['namespaces']) > 0:
-            for namespace in self.raw_config['Aerospike'].get('namespaces').split(','):
+        namespaces_string = self.raw_config['Aerospike'].get('namespaces', '')
+        if len(namespaces_string) > 0:
+            for namespace in namespaces_string.split(','):
                 self.namespaces.append(namespace.strip())
 
     def __get_dict(self, data, name_prefix=''):
@@ -59,6 +59,8 @@ class Aerospike(object):
 
     def run(self):
 
+        import aerospike
+
         aerospike_stats = {
             'failed': False
         }
@@ -68,13 +70,35 @@ class Aerospike(object):
                 'hosts': [(self.host, self.port)]
             }
             client = aerospike.client(config).connect()
-            node_statistics = client.info_node(host=(self.host, self.port), command='statistics')
-            node_statistics = node_statistics[len('statistics'):].strip()    # remove title
+            node_statistics = client.info_node(
+                host=(self.host, self.port),
+                command='statistics'
+            )
+
+            # remove title
+            node_statistics = node_statistics[len('statistics'):].strip()
+
             aerospike_stats.update(self.__get_dict(node_statistics))
+
             for namespace in self.namespaces:
-                namespace_statistics = client.info_node(host=(self.host, self.port), command='namespace/' + namespace)
-                namespace_statistics = namespace_statistics[len('namespace/' + namespace):].strip()    # remove title
-                aerospike_stats.update(self.__get_dict(namespace_statistics, 'ns:' + namespace + '-'))
+
+                namespace_statistics = client.info_node(
+                    host=(self.host, self.port),
+                    command='namespace/' + namespace
+                )
+
+                # remove title
+                title_length = len('namespace/' + namespace)
+                namespace_statistics = \
+                    namespace_statistics[title_length:].strip()
+
+                aerospike_stats.update(
+                    self.__get_dict(
+                        namespace_statistics,
+                        'ns:' + namespace + '-'
+                    )
+                )
+
         except:
             aerospike_stats['failed'] = True
 
