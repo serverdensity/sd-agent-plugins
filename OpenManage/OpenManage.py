@@ -35,14 +35,20 @@ class OpenManage(object):
             expected_disks = self.raw_config['OpenManage']['disk_count']
             self.checks_logger.debug('OpenManage config options found |' +
                                      ' Disk count: ' + str(expected_disks))
+        except:
+            self.checks_logger.debug(
+                'OpenManage disk_count config option not found, using default')
+            expected_disks = 2
+
+        try:
             omreport_location = self.raw_config['OpenManage']['om_report']
             self.checks_logger.debug('OpenManage config options found |' +
                                      ' Location: ' + omreport_location)
-        except KeyError as e:
-            expected_disks = 2
-            omreport_location = '/opt/dell/srvadmin/bin/omreport'
+        except:
             self.checks_logger.debug(
-                'OpenManage config options not found - Using defaults')
+                'OpenManage om_report config option not found, using default')
+            omreport_location = '/opt/dell/srvadmin/bin/omreport'
+
         try:
             proc = subprocess.Popen(
                 [omreport_location, 'storage', 'pdisk', 'controller=0'],
@@ -52,17 +58,22 @@ class OpenManage(object):
         except:
             e = sys.exc_info()[0]
             self.checks_logger.error('OpenManage Plugin Error: {0}'.format(e))
-            data['check'] = 'FAIL'
+            data['check'] = 1
             return data
         for line in output.split("\n"):
             if line.startswith('ID'):
                 ID = line.split(':', 1)[1].replace(' ', '')
             if line.startswith('State'):
-                data['state' + str(ID)] = line.split(':')[1].replace(' ', '')
+                state = line.split(':')[1].replace(' ', '')
+                if state != 'Online':
+                    state = 1
+                else:
+                    state = 0
+                data['state' + str(ID)] = state
         if len(data) >= int(expected_disks):
-            data['check'] = 'OK'
+            data['check'] = 0
         else:
-            data['check'] = 'FAIL'
+            data['check'] = 1
         return data
 
 

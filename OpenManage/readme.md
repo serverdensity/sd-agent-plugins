@@ -27,10 +27,10 @@ You can read more about setting config values for custom plugins in our [help do
 
 Metrics
 ---
-* `stateX` where `X` is the pdisk number, typically `0:1` or similar - Returns the state of the pdisk
-* `check` - Returns `OK` or `FAIL`. `FAIL` is returned if the amount of disks seen in the response is less than the configured `disk_count` (default 2) or if an error is seen when executing the plugin.
+* `stateX` where `X` is the pdisk number, typically `0:1` or similar - Returns the state of the pdisk as `0` or `1`. `0` is returned for an `Online` disk state. `1` is returned for any other disk state
+* `check` - Returns `0` or `1`. `1` is returned if the amount of disks seen in the response is less than the configured `disk_count` (default 2) or if an error is seen when executing the plugin else `0` is returned.
 
 Recommended alerts
 ---
-* `check` != `OK`
-* `stateX` != `Online`
+* `check` != `0`
+* `stateX` != `0`
