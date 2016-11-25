@@ -53,4 +53,4 @@ States taken from [http://www.dell.com/support/manuals/uk/en/ukbsdt1/dell-openma
 `12` - Non-RAID
 `13` - Unknown 
 `14` - Ready
-`15 - Disk state could not be determined
+`15 - Disk state could not be determined - The disk state could not be determined by the plugin as it does not match one of the above states. 
