@@ -28,6 +28,23 @@ class OpenManage(object):
         self.version = platform.python_version_tuple()
 
     def run(self):
+        state_mapping = {
+            'Online': 0,
+            'Degraded': 1,
+            'Failed': 2,
+            'Offline': 3,
+            'Rebuilding': 4,
+            'Incompatible': 5,
+            'Removed': 6,
+            'Clear': 7,
+            'SMARTAlertDetected': 8,
+            'Foreign': 9,
+            'Unsupported': 10,
+            'Replacing': 11,
+            'Non-RAID': 12,
+            'Unknown': 13,
+            'Ready': 14
+        }
 
         data = {}
 
@@ -65,11 +82,10 @@ class OpenManage(object):
                 ID = line.split(':', 1)[1].replace(' ', '')
             if line.startswith('State'):
                 state = line.split(':')[1].replace(' ', '')
-                if state != 'Online':
-                    state = 1
+                if state in state_mapping:
+                    data['state' + str(ID)] = state_mapping.get(state)
                 else:
-                    state = 0
-                data['state' + str(ID)] = state
+                    data['state' + str(ID)] = 15
         if len(data) >= int(expected_disks):
             data['check'] = 0
         else:
