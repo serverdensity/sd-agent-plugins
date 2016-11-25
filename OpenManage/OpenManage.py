@@ -33,8 +33,11 @@ class OpenManage(object):
 
         try:
             expected_disks = self.raw_config['OpenManage']['disk_count']
+            self.checks_logger.debug('OpenManage config options found |' +
+                                     ' Disk count: ' + str(expected_disks))
             omreport_location = self.raw_config['OpenManage']['om_report']
-            self.checks_logger.debug('OpenManage config options found')
+            self.checks_logger.debug('OpenManage config options found |' +
+                                     ' Location: ' + omreport_location)
         except KeyError as e:
             expected_disks = 2
             omreport_location = '/opt/dell/srvadmin/bin/omreport'
@@ -56,7 +59,7 @@ class OpenManage(object):
                 ID = line.split(':', 1)[1].replace(' ', '')
             if line.startswith('State'):
                 data['state' + str(ID)] = line.split(':')[1].replace(' ', '')
-        if len(data) >= expected_disks:
+        if len(data) >= int(expected_disks):
             data['check'] = 'OK'
         else:
             data['check'] = 'FAIL'
