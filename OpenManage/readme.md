@@ -16,7 +16,7 @@ Configuration is optional. If no config options are found then the defaults are 
 disk_count: 2
 om_report: /opt/dell/srvadmin/bin/omreport
 ```
-You can read more about setting config values in our [help docs](https://support.serverdensity.com/hc/en-us/articles/201003178-Agent-config-variables)
+You can read more about setting config values for custom plugins in our [help docs](https://support.serverdensity.com/hc/en-us/articles/213074438-Information-about-Custom-Plugins)
 * Download the [OpenManage.py](OpenManage.py) plugin file into your [Server Density agent plugin directory](/README.md).
 * Restart the agent.
 
