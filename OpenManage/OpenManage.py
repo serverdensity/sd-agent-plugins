@@ -35,7 +35,7 @@ class OpenManage(object):
             expected_disks = self.raw_config['OpenManage']['disk_count']
             self.checks_logger.debug('OpenManage config options found |' +
                                      ' Disk count: ' + str(expected_disks))
-        except:
+        except KeyError:
             self.checks_logger.debug(
                 'OpenManage disk_count config option not found, using default')
             expected_disks = 2
@@ -44,7 +44,7 @@ class OpenManage(object):
             omreport_location = self.raw_config['OpenManage']['om_report']
             self.checks_logger.debug('OpenManage config options found |' +
                                      ' Location: ' + omreport_location)
-        except:
+        except KeyError:
             self.checks_logger.debug(
                 'OpenManage om_report config option not found, using default')
             omreport_location = '/opt/dell/srvadmin/bin/omreport'
@@ -55,7 +55,7 @@ class OpenManage(object):
                 stdout=subprocess.PIPE,
                 close_fds=True)
             output = proc.communicate()[0]
-        except:
+        except Exception:
             e = sys.exc_info()[0]
             self.checks_logger.error('OpenManage Plugin Error: {0}'.format(e))
             data['check'] = 1
