@@ -5,20 +5,25 @@ This plugin is for OpenManage RAID.
 
 Setup
 ---
-Depending on how you are running the agent you maybe need to give the sd-agent more permissions. [Plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo) has more information.
+Depending on how you are running the agent you may need to give the sd-agent more permissions. [Plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo) has more information.
+
+Installation - v2 Agent
+---
+* Download the [OpenManage.py](OpenManage.py) plugin file into your [Server Density agent plugin directory](/README.md).
+* (Optional) Configure the plugin - see below.
+* Restart the agent.
+
 
 Configuration (Optional) v2 Agent
 ---
-Configuration is optional. If no config options are found then the defaults are used which are shown below
-* If you want to override the defaults add the following config value to `/etc/sd-agent/plugins.cfg` at the end of the file.  
+Configuration is optional. If no config options are found then the defaults are used which are the values shown below
+* If you want to override the defaults add the following config options with your required values to `/etc/sd-agent/plugins.cfg` at the end of the file.  
 ```
 [OpenManage]
 disk_count: 2
 om_report: /opt/dell/srvadmin/bin/omreport
 ```
 You can read more about setting config values for custom plugins in our [help docs](https://support.serverdensity.com/hc/en-us/articles/213074438-Information-about-Custom-Plugins)
-* Download the [OpenManage.py](OpenManage.py) plugin file into your [Server Density agent plugin directory](/README.md).
-* Restart the agent.
 
 Metrics
 ---
