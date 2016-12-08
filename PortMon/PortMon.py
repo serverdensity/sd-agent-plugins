@@ -55,9 +55,9 @@ if __name__ == "__main__":
     # Test ports: one that's not accessible and another that's open on my
     # MacBook.
     fake_rawConfig = {
-        'PortMon' : {
-            'portmon_targets':  "127.0.0.1:8542,192.168.6.6:1200",
-            'portmon_timeout':  "10"
+        'PortMon': {
+            'portmon_targets': "127.0.0.1:8542,192.168.6.6:1200",
+            'portmon_timeout': "10"
         }
     }
     pm = PortMon({}, {}, fake_rawConfig)
