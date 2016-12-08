@@ -1,7 +1,7 @@
 OpenManage RAID
 ===
 
-This plugin is for OpenManage RAID. 
+This plugin is for OpenManage RAID.
 
 Setup
 ---
@@ -17,7 +17,9 @@ Installation - v2 Agent
 Configuration (Optional) v2 Agent
 ---
 Configuration is optional. If no config options are found then the defaults are used which are the values shown below
-* If you want to override the defaults add the following config options with your required values to `/etc/sd-agent/plugins.cfg` at the end of the file.  
+If you want to override the defaults add the following config options with your required values to `/etc/sd-agent/plugins.cfg` at the end of the file.
+`disk_count` - the amount of disks to be expected by the plugin.
+`om_report` - the location of omreport, if it does not match the default.
 ```
 [OpenManage]
 disk_count: 2
@@ -38,19 +40,19 @@ Recommended alerts
 Disk States
 ---
 States taken from [http://www.dell.com/support/manuals/uk/en/ukbsdt1/dell-openmanage-server-administrator-v8.3/OMSS_UG/Physical-Disk-Or-Physical-Device-Properties?guid=GUID-D4CFE840-7128-46D2-B21C-39741581DABB&lang=en-us](OMSA 8.3 Documentation)
-`0` - Online 
-`1` - Degraded
-`2` - Failed 
-`3` - Offline 
-`4` - Rebuilding 
-`5` - Incompatible
-`6` - Removed 
-`7` - Clear 
-`8` - SMART Alert Detected 
-`9` - Foreign 
-`10` - Unsupported
-`11` - Replacing 
-`12` - Non-RAID
-`13` - Unknown 
-`14` - Ready
-`15` - Disk state could not be determined - The disk state could not be determined by the plugin as it does not match one of the above states. 
+*`0` - Online
+*`1` - Degraded
+*`2` - Failed
+*`3` - Offline
+*`4` - Rebuilding
+*`5` - Incompatible
+*`6` - Removed
+*`7` - Clear
+*`8` - SMART Alert Detected
+*`9` - Foreign
+*`10` - Unsupported
+*`11` - Replacing
+*`12` - Non-RAID
+*`13` - Unknown
+*`14` - Ready
+*`15` - Disk state could not be determined - The disk state could not be determined by the plugin as it does not match one of the above states.

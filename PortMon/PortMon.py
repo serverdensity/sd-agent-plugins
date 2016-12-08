@@ -7,8 +7,9 @@ import socket
 
 class PortMon(object):
     '''
-    Config should be in /etc/sd-agent/config.cfg like:
+    Config should be in /etc/sd-agent/plugins.cfg like:
 
+    [PortMon]
     portmon_timeout: 5
     portmon_targets: 127.0.0.1:22,192.168.3.4:5678
 
@@ -20,8 +21,8 @@ class PortMon(object):
         self.checksLogger = checksLogger
         self.rawConfig = rawConfig
 
-        self.timeout = int(rawConfig['Main'].get('portmon_timeout', 10))
-        targets_str = rawConfig['Main'].get('portmon_targets', '').strip()
+        self.timeout = int(rawConfig['PortMon'].get('portmon_timeout', 10))
+        targets_str = rawConfig['PortMon'].get('portmon_targets', '').strip()
         if len(targets_str):
             self.targets = targets_str.split(',')
         else:
@@ -54,8 +55,10 @@ if __name__ == "__main__":
     # Test ports: one that's not accessible and another that's open on my
     # MacBook.
     fake_rawConfig = {
-        'portmon_targets':  "127.0.0.1:8542,192.168.6.6:1200",
-        'portmon_timeout':  "10"
+        'PortMon': {
+            'portmon_targets': "127.0.0.1:8542,192.168.6.6:1200",
+            'portmon_timeout': "10"
+        }
     }
     pm = PortMon({}, {}, fake_rawConfig)
     print pm.run()
