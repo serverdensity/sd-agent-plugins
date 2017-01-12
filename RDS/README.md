@@ -3,15 +3,15 @@ AWS RDS Server Density plugin
 
 This plugin allows to monitor AWS RDS instances. It is based on the [Percona Monitoring Tools](https://github.com/percona/percona-monitoring-plugins/blob/master/cacti/scripts/ss_get_rds_stats.py) and uses [Python Boto](http://boto.cloudhackers.com/en/latest/) to query AWS CloudWatch.
 
-Every minute it pulls the 2 minute average from Cloudwatch and posts that to Server Density. The reason it pulls a 2 minute average rather than a 1 minute average is that when pulling a 1 minute average CPU utilization is not available. 
+Every minute it pulls the 2 minute average from Cloudwatch and posts that to Server Density. The reason it pulls a 2 minute average rather than a 1 minute average is that when pulling a 1 minute average CPU utilization is not available.
 
-In the configuration you can get data from multiple endpoints by separating the endpoints through a comma. However, due to the nature of Boto making a request for each metric it's advisable to not have too many endpoints to allow the agent to make postbacks every minute. 
+In the configuration you can get data from multiple endpoints by separating the endpoints through a comma. However, due to the nature of Boto making a request for each metric it's advisable to not have too many endpoints to allow the agent to make postbacks every minute.
 
 Setup
 -----
 
 1. Install python-boto `sudo apt-get install python-boto`
-2. Configure the plugin in `/etc/sd-agent/plugins.cfg` 
+2. Configure the plugin in `/etc/sd-agent/plugins.cfg`
      ```
      [RDS]
       aws_access_key_id = YOUR_KEY_ID
@@ -19,7 +19,7 @@ Setup
       endpoints = RDS_ENDPOINT1,RDS_ENDPOINT2
      ```
 
-3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure. 
+3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure.
 4. Restart the agent to apply changes `sudo service sd-agent restart`
 
 Troubleshooting
@@ -28,7 +28,7 @@ Troubleshooting
 You can run the script directly from the command line to collect the metrics:
 
 ```
-$ python RDS.py -k YOUR_ACCESS_KEY -p YOUR_SECRET -e YOUR_ENDPOINT         
+$ python RDS.py -k YOUR_ACCESS_KEY -p YOUR_SECRET -e YOUR_ENDPOINT
 {
   "somedbinstance_total_diskUsage": 5368709120.0,
   "somedbinstance_database_connections": 0.0,
