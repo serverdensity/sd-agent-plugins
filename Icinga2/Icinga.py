@@ -42,7 +42,7 @@ class Icinga:
                 r.raise_for_status()
         except requests.exceptions.HTTPError as e:
             self.checks_logger.error('Failed to retrieve URL: %s' % (e, ))
-            sys.exit(1)
+            return stats
 
         cib_status = filter(lambda result: result['name'] == 'CIB', data['results'])
         stats = cib_status[0]['status']
