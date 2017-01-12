@@ -35,7 +35,8 @@ class Foocast(object):
                 try:
                     self.config = yaml.load(stream)
                 except yaml.YAMLError as exception:
-                    checks_logger.error('Failed to parse YAML configuration file: {0}'.format(exception.message))
+                    checks_logger.error('Failed to parse YAML configuration file: {0}'
+                                        .format(exception.message))
         except Exception as exception:
             checks_logger.error('Failed to load configuration file: {0}'.format(exception.message))
 
@@ -46,14 +47,16 @@ class Foocast(object):
             for dc in self.config[provider]:
                 location = self.config[provider][dc][0]['location']
                 gdata = self.geoloc.geocode(location)
-                fio = ForecastIO.ForecastIO(self.forecastio_key, latitude=gdata.latitude, longitude=gdata.longitude)
+                fio = ForecastIO.ForecastIO(self.forecastio_key, latitude=gdata.latitude,
+                                            longitude=gdata.longitude)
 
                 if fio.has_daily() is True:
                     daily = FIODaily.FIODaily(fio)
                     precipIntensity = 0
                     windSpeed = 0
                     for day in xrange(0, daily.days()):
-                        precipIntensity = max(precipIntensity, unicode(daily.get_day(day)['precipIntensity']))
+                        precipIntensity = max(precipIntensity,
+                                              unicode(daily.get_day(day)['precipIntensity']))
                         windSpeed = max(windSpeed, unicode(daily.get_day(day)['windSpeed']))
                         name = provider + '_' + dc + '_precipIntensity'
                         data[name] = precipIntensity

@@ -63,7 +63,8 @@ class Nagios:
         self.raw_config = raw_config
         self.datastore = {}
 
-        self.cmd_path = self.raw_config['Nagios'].get('cmd_path', '/usr/local/nagios/bin/nagiostats')
+        self.cmd_path = self.raw_config['Nagios'].get('cmd_path',
+                                                      '/usr/local/nagios/bin/nagiostats')
 
     def run(self):
         data = ''
@@ -84,7 +85,8 @@ class Nagios:
             stats[metric_name] = int(m.group(1))
 
         for metric in METRICS_3AVGf:
-            m = re.search("{0}:\s+(\d+\.\d+)\s+/\s+(\d+\.\d+)\s+/\s+(\d+\.\d+)".format(metric), data)
+            m = re.search("{0}:\s+(\d+\.\d+)\s+/\s+(\d+\.\d+)\s+/\s+(\d+\.\d+)".format(metric),
+                          data)
             stats[metric] = float(m.group(1))
 
         for metric in METRICS_4AVG:
@@ -92,7 +94,8 @@ class Nagios:
             metric_name = re.match(r"(.*) Last 1/5/15/60 min", metric).group(1)
             stats[metric_name] = int(m.group(1))
 
-        m = re.search("Services Ok/Warn/Unk/Crit:\s+(\d+)\s+/\s+(\d+)\s+/\s+(\d+)\s+/\s+(\d+)".format(metric), data)
+        m = re.search("Services Ok/Warn/Unk/Crit:\s+(\d+)\s+/\s+(\d+)\s+/\s+(\d+)\s+/\s+(\d+)"
+                      .format(metric), data)
         stats['Services Status Ok'] = int(m.group(1))
         stats['Services Status Warn'] = int(m.group(2))
         stats['Services Status Unknown'] = int(m.group(3))
@@ -125,8 +128,13 @@ class Nagios:
         stats['Active Service Checks On-demand'] = int(m.group(7))
         stats['Active Service Checks Cached'] = int(m.group(10))
 
-        m = re.search("Program Running Time:\s+(\d+)d\s+(\d+)h\s+(\d+)m\s+(\d+)s".format(metric), data)
-        stats['Uptime'] = int(m.group(4)) + int(m.group(3))*60 + int(m.group(3))*3600 + int(m.group(4))*86400
+        m = re.search("Program Running Time:\s+(\d+)d\s+(\d+)h\s+(\d+)m\s+(\d+)s".format(metric),
+                      data)
+        stats['Uptime'] = (
+            int(m.group(4)) +
+            int(m.group(3)) * 60 +
+            int(m.group(3)) * 3600 +
+            int(m.group(4)) * 86400)
 
         return stats
 

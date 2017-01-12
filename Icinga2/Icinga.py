@@ -22,8 +22,10 @@ class Icinga:
 
         self.api_user = self.raw_config['Icinga'].get('api_user', 'root')
         self.api_passwd = self.raw_config['Icinga'].get('api_passwd', '')
-        self.api_status_url = self.raw_config['Icinga'].get('api_stats_url', 'https://localhost:5665/v1/status')
-        self.icinga_ca_crt = self.raw_config['Icinga'].get('icinga_ca_crt', '/etc/icinga2/pki/ca.crt')
+        self.api_status_url = self.raw_config['Icinga'].get('api_stats_url',
+                                                            'https://localhost:5665/v1/status')
+        self.icinga_ca_crt = self.raw_config['Icinga'].get('icinga_ca_crt',
+                                                           '/etc/icinga2/pki/ca.crt')
 
     def run(self):
         data = ''
