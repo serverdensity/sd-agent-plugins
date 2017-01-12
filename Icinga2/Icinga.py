@@ -31,8 +31,8 @@ class Icinga:
 
         try:
             r = requests.get(self.api_status_url,
-                auth=(self.api_user, self.api_passwd),
-                verify=self.icinga_ca_crt,)
+                             auth=(self.api_user, self.api_passwd),
+                             verify=self.icinga_ca_crt,)
 
             if (r.status_code == 200):
                 data = r.json()
@@ -72,4 +72,3 @@ if __name__ == '__main__':
             main_checks_logger.exception("Unhandled exception")
         finally:
             time.sleep(60)
-

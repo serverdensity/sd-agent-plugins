@@ -54,6 +54,7 @@ METRICS_4AVG = [
     'Passive Hosts Last 1/5/15/60 min'
 ]
 
+
 class Nagios:
 
     def __init__(self, agent_config, checks_logger, raw_config):
@@ -69,10 +70,10 @@ class Nagios:
         stats = {}
 
         try:
-	    data = subprocess.check_output([self.cmd_path])
-        except Exception as e:
-            self.checks_logger.error('Failed to run %s: %s' % (self.cmd_path, e))
-            sys.exit(1)
+            data = subprocess.check_output([self.cmd_path])
+            except Exception as e:
+                self.checks_logger.error('Failed to run %s: %s' % (self.cmd_path, e))
+                sys.exit(1)
 
         for metric in METRICS:
             stats[metric] = int(re.search("{0}:\s+(\d+)".format(metric), data).group(1))
@@ -152,4 +153,3 @@ if __name__ == '__main__':
             main_checks_logger.exception("Unhandled exception")
         finally:
             time.sleep(60)
-
