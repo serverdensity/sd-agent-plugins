@@ -72,9 +72,9 @@ class Nagios:
 
         try:
             data = subprocess.check_output([self.cmd_path])
-            except Exception as e:
-                self.checks_logger.error('Failed to run %s: %s' % (self.cmd_path, e))
-                return stats
+        except Exception as e:
+            self.checks_logger.error('Failed to run %s: %s' % (self.cmd_path, e))
+            return stats
 
         for metric in METRICS:
             stats[metric] = int(re.search("{0}:\s+(\d+)".format(metric), data).group(1))
