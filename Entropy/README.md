@@ -9,12 +9,12 @@ Used by: SSL connections, cryptographic services, etc.
 
 Setup
 ---
-No special setup.
+Download Entropy.py into your plugin directory, usually found here: `/usr/local/share/sd-plugins`. If you are unsure of your plugin directory location, check your config.cfg, located at: `/etc/sd-agent/config.cfg`
 
 Metrics
 ---
 
-Source: cat /proc/sys/kernel/random/entropy_avail
+Available
 
 Recommended alerts
 ---

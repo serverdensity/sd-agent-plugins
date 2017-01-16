@@ -39,7 +39,7 @@ Recommended alerts
 
 Disk States
 ---
-States taken from [http://www.dell.com/support/manuals/uk/en/ukbsdt1/dell-openmanage-server-administrator-v8.3/OMSS_UG/Physical-Disk-Or-Physical-Device-Properties?guid=GUID-D4CFE840-7128-46D2-B21C-39741581DABB&lang=en-us](OMSA 8.3 Documentation)
+States taken from [here](http://www.dell.com/support/manuals/uk/en/ukbsdt1/dell-openmanage-server-administrator-v8.3/OMSS_UG/Physical-Disk-Or-Physical-Device-Properties?guid=GUID-D4CFE840-7128-46D2-B21C-39741581DABB&lang=en-us)
 *`0` - Online
 *`1` - Degraded
 *`2` - Failed
