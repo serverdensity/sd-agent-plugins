@@ -1,0 +1,86 @@
+---
+ovh:
+  bhs-1:
+    - location: Beauharnois, CA
+  bhs-2:
+    - location: Beauharnois, CA
+  gra-1:
+    - location: Gravelines, FR
+  rbx-1:
+    - location: Roubaix, FR
+  rbx-2:
+    - location: Roubaix, FR
+  rbx-3:
+    - location: Roubaix, FR
+  rbx-4:
+    - location: Roubaix, FR
+  rbx-5:
+    - location: Roubaix, FR
+  rbx-6:
+    - location: Roubaix, FR
+  sbg-1:
+    - location: Strasbourg, FR
+  sbg-3:
+    - location: Strasbourg, FR
+  sbg-4:
+    - location: Strasbourg, FR
+  dc-1:
+    - location: Paris, FR
+  p19:
+    - location: Paris, FR
+  gsw:
+    - location: Paris, FR
+
+google:
+  ie:
+    - location: Dublin, Ireland
+  nl:
+    - location: Eemshaven, Netherlands
+  fi:
+    - location: Hamina, Finland
+  be:
+    - location: St Ghislain, Belgium
+  tw:
+    - location: Changhua County, Taiwan
+  sg:
+    - location: Jurong West, Singapore
+  usa-sc:
+    - location: Berkeley County, South Carolina
+  usa-io:
+    - location: Council Bluffs, Iowa
+  usa-ge:
+    - location: Douglas County, Georgia
+  usa-al:
+    - location: Jackson County, Alabama
+  usa-nc:
+    - location: Lenoir, North Carolina
+  usa-ok:
+    - location: Mayes County, Oklahoma
+  usa-te:
+    - location: Montgomery County, Tennessee
+  cl:
+    - location: Quilicura, Chile
+  usa-or:
+    - location: The Dalles, Oregon
+
+aws:
+  eu-west-1:
+    - location: Dublin, Ireland
+  eu-central-1:
+    - location: Frankfurt, Germany
+  us-east-1:
+    - location: Ashburn, North Virginia, USA
+  us-west-1:
+    - location: North California, USA
+  us-west-2:
+    - location: Oregon, USA
+  ap-southeast-1:
+    - location: Singapore, Singapore
+  ap-southeast-2:
+    - location: Sydney, Australia
+  ap-northeast-1:
+    - location: Tokyo, Japan
+  ap-northeast-2:
+    - location: Seoul, South Korea
+  sa-east-1:
+    - location: Sao Pablo, Brazil
