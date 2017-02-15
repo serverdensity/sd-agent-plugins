@@ -12,12 +12,12 @@ Setup
 
 1. Install python-boto `sudo apt-get install python-boto`
 2. Configure the plugin in `/etc/sd-agent/plugins.cfg`
-     ```
-     [RDS]
-      aws_access_key_id = YOUR_KEY_ID
-      aws_secret_access_key = YOUR_ACCESS_KEY
-      endpoints = RDS_ENDPOINT1,RDS_ENDPOINT2
-     ```
+```
+[RDS]
+aws_access_key_id = YOUR_KEY_ID
+aws_secret_access_key = YOUR_ACCESS_KEY
+endpoints = RDS_ENDPOINT1,RDS_ENDPOINT2
+```
 
 3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure.
 4. Restart the agent to apply changes `sudo service sd-agent restart`
