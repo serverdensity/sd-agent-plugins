@@ -15,7 +15,8 @@ Installing
 ----------
 
 1. Download the `NagiosWrapper.py` plugin file and place it into your sd-agent plugin directory. If you have not installed a plugin before you need to create a directory the agent will be able to read/write to then update the `/etc/sd-agent/config.cfg` file to include the location of that directory. We recommend `/usr/local/sd-agent-plugins`.
-2. Edit or create your `/etc/sd-agent/plugins.d/NagiosWrapper.cfg` file to include the paths to the plugins you want the agent to execute and how often they should be executed (in [crontab format](https://en.wikipedia.org/wiki/Cron#Overview)). Then restart the agent. The example below uses 2 sample plugins by default, check_sensors will be executed every 10mins and check_mailq will be executed every 2mins. This MUST be valid JSON else the plugin will fail:
+2. Install the python module `crontab`.
+3. Edit or create your `/etc/sd-agent/plugins.d/NagiosWrapper.cfg` file to include the paths to the plugins you want the agent to execute and how often they should be executed (in [crontab format](https://en.wikipedia.org/wiki/Cron#Overview)). Then restart the agent. The example below uses 2 sample plugins by default, check_sensors will be executed every 10mins and check_mailq will be executed every 2mins. This MUST be valid JSON else the plugin will fail:
 
 ```python
 [NagiosWrapper]
