@@ -98,7 +98,7 @@ if __name__ == '__main__':
         'NagiosWrapper': {
             'commands': """{
                 "/usr/lib64/nagios/plugins/check_sensors": "* * * * *",
-                "/usr/lib64/nagios/plugins/check_mailq -w 10 -c 20 -M postfix": "*/3 * * * *",
+                "/usr/lib64/nagios/plugins/check_mailq -w 10 -c 20 -M postfix": "*/3 * * * *"
             }"""
         }
     }
