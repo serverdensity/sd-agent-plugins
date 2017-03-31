@@ -32,7 +32,7 @@ class NagiosWrapper:
         plugin_command = plugins_list[0]
 
         plugin_process = subprocess.Popen(
-            plugin_command,
+            plugins_list,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
