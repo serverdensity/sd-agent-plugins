@@ -1,9 +1,9 @@
-Nagios plugin wrapper for sd-agent
+Nagios / Icinga plugin wrapper for sd-agent
 ==============
 
 If you are already using Nagios and want to move to Server Density, you may not want to rewrite all your Nagios plugins. This sd-agent plugin will execute your Nagios plugins, then report the data back to Server Density.
 
-This plugin is also compatible with Icinga 2 plugins too.
+This plugin is also compatible with Icinga plugins too.
 
 Plugin types
 ------------
@@ -14,14 +14,14 @@ Plugin types
 Installing
 ----------
 
-1. Download the `NagiosWrapper.py` plugin file and place it into your sd-agent plugin directory. If you have not installed a plugin before you need to create a directory the agent will be able to read/write to then update the `/etc/sd-agent/config.cfg` file to include the location of that directory. We recommend `/usr/bin/sd-agent/plugins/`.
-2. Edit the `NagiosWrapper.py` file to include the paths to the plugins you want the agent to execute. Then restart the agent. The plugin uses 2 sample plugins by default:
+1. Download the `NagiosWrapper.py` plugin file and place it into your sd-agent plugin directory. If you have not installed a plugin before you need to create a directory the agent will be able to read/write to then update the `/etc/sd-agent/config.cfg` file to include the location of that directory. We recommend `/usr/local/sd-agent-plugins`.
+2. Install the python module `crontab`.
+3. Edit or create your `/etc/sd-agent/plugins.d/NagiosWrapper.cfg` file to include the paths to the plugins you want the agent to execute and how often they should be executed (in [crontab format](https://en.wikipedia.org/wiki/Cron#Overview)). Then restart the agent. The example below uses 2 sample plugins by default, check_sensors will be executed every 10mins and check_mailq will be executed every 2mins. This MUST be valid JSON else the plugin will fail:
 
 ```python
-nagiosPluginsCommandLines = [
-    "/usr/lib64/nagios/plugins/check_sensors",
-    "/usr/bin/sd-agent/check_mailq -w 10 -c 20 -M postfix",
-]
+[NagiosWrapper]
+commands: {"/usr/lib64/nagios/plugins/check_sensors": "*/10 * * * *", "/usr/bin/sd-agent/check_mailq -w 10 -c 20 -M postfix": "*/2 * * * *"}
+
 ```
 
 The `check_mailq` plugin is installed along with Nagios. `check_sensors` is a [3rd party plugin](http://exchange.nagios.org/directory/Plugins/System-Metrics/Environmental/check_sensors/details).
