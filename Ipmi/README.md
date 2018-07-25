@@ -12,7 +12,7 @@ using sudo:
 `sudo ipmitool sensor`
 
 Depending on how you are running the agent you maybe need to give the sd-agent more permissions.
-[plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo)
+[plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/360001066843)
 has more information.
 
 Linux

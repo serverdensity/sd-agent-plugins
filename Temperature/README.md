@@ -14,7 +14,7 @@ using sudo:
 `sudo smartctl --all /dev/DEVICE -s on`
 
 Depending on how you are running the agent you maybe need to give the sd-agent more permissions.
-[plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo)
+[plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/360001066843)
 has more information.
 
 Linux
@@ -50,7 +50,7 @@ cpus: yes
 other: no
 # specify adapters to report on, you will need to change these
 adapters: f75375-i2c-0-2d
-# the following requires sudo access - https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo
+# the following requires sudo access - https://support.serverdensity.com/hc/en-us/articles/360001066843
 # set the disks, leave blank to test all disks, 'no' disable disk checks
 disks: '/dev/sda,/dev/hda'
 ```

@@ -11,15 +11,15 @@ Installation - v1 Agent
 ---
 1. Configure your agent for plugin use
 
-2. Download the [MountPoints.py](MountPoints.py) plugin file into your [Server Density agent plugin directory](https://support.serverdensity.com/hc/en-us/articles/213074438).
+2. Download the [MountPoints.py](MountPoints.py) plugin file into your [Server Density agent plugin directory](https://support.serverdensity.com/hc/en-us/articles/360001083186).
 
 3. Restart the agent
 
 Installation - v2 Agent
 ---
-1. Configure your agent for plugin use. Instructions can be found [here](https://support.serverdensity.com/hc/en-us/articles/213074438)
+1. Configure your agent for plugin use. Instructions can be found [here](https://support.serverdensity.com/hc/en-us/articles/360001083186)
 
-2. Download the [MountPoints.py](MountPoints.py) plugin file into your [Server Density agent plugin directory](https://support.serverdensity.com/hc/en-us/articles/213074438).
+2. Download the [MountPoints.py](MountPoints.py) plugin file into your [Server Density agent plugin directory](https://support.serverdensity.com/hc/en-us/articles/360001083186).
 
 3. Restart the agent using the following command: `service sd-agent restart`
 

@@ -1,6 +1,6 @@
 Docker Monitor
 ===
-**_This plugin has been deprecated in favour of the [official Docker plugin](https://support.serverdensity.com/hc/en-us/articles/213509068)_**
+**_This plugin has been deprecated in favour of the [official Docker plugin](https://support.serverdensity.com/hc/en-us/articles/360001083106)_**
 
 This plugin is for [Docker](https://www.docker.com/). It is based on the
 detailed list of metrics mentioned on [Docker Run Metrics](https://docs.docker.com/articles/runmetrics/).
@@ -10,7 +10,7 @@ Setup
 This plugin uses the output from `sudo docker ps [-l, -a] --no-trunc` to collect data about all the running containers.
 
 Depending on how you are running the agent you maybe need to give the sd-agent more permissions.
-[plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo)
+[plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/360001066843)
 has more information.
 
 Metrics
