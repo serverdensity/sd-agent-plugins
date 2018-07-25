@@ -20,7 +20,7 @@ location = /status {
 [nginxplus]
 nginx_status_url: http://localhost/status
 ```
-You can read more about setting config values in our [help docs](https://support.serverdensity.com/hc/en-us/articles/201003178-Agent-config-variables)
+You can read more about setting config values in our [help docs](https://support.serverdensity.com/hc/en-us/articles/360001083926)
 * Download the [NginxPlus.py](NginxPlus.py) plugin file into your [Server Density agent plugin directory](/README.md).
 * Restart the agent.
 

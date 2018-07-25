@@ -1,6 +1,6 @@
 # MySQL monitoring  - Linux, Mac and FreeBSD
 
-**_This plugin has been deprecated in favour of the [official MySQL plugin](https://support.serverdensity.com/hc/en-us/articles/211821268)_**
+**_This plugin has been deprecated in favour of the [official MySQL plugin](https://support.serverdensity.com/hc/en-us/articles/360001066123)_**
 
 ## 1. Dependencies
 
@@ -92,11 +92,11 @@ You can use any user to connect to the database that has the process privilege. 
 
 ## 3. Restart agent
 
-[Restart the agent](https://serverdensity.zendesk.com/hc/en-us/articles/201008977-Restarting-the-agent) to start the monitoring. Using replication? [Make sure you set up the right alerts](http://support.serverdensity.com/hc/en-us/articles/201179067-MySQL-replication-monitoring).
+[Restart the agent](https://support.serverdensity.com/hc/en-us/articles/360001084646) to start the monitoring. Using replication? [Make sure you set up the right alerts](http://support.serverdensity.com/hc/en-us/articles/360001066903).
 
 ## 4. Add graphs
 
-Click the name of your server from the Devices list in your Server Density account then go to the Metrics tab. Click the + Graph button on the right then choose the MySQL metrics to display the graphs. The metrics will also be available to select when [building dashboard graphs](https://support.serverdensity.com/hc/en-us/articles/201895006-Dashboard-graphs).
+Click the name of your server from the Devices list in your Server Density account then go to the Metrics tab. Click the + Graph button on the right then choose the MySQL metrics to display the graphs. The metrics will also be available to select when [building dashboard graphs](https://support.serverdensity.com/hc/en-us/articles/360001083846).
 
 ## 5. Available Metrics from the start
 

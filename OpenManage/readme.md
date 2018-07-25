@@ -5,7 +5,7 @@ This plugin is for OpenManage RAID.
 
 Setup
 ---
-Depending on how you are running the agent you may need to give the sd-agent more permissions. [Plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/201253683-Plugins-requiring-sudo) has more information.
+Depending on how you are running the agent you may need to give the sd-agent more permissions. [Plugins requiring sudo](https://support.serverdensity.com/hc/en-us/articles/360001066843) has more information.
 
 Installation - v2 Agent
 ---
@@ -25,7 +25,7 @@ If you want to override the defaults add the following config options with your 
 disk_count: 2
 om_report: /opt/dell/srvadmin/bin/omreport
 ```
-You can read more about setting config values for custom plugins in our [help docs](https://support.serverdensity.com/hc/en-us/articles/213074438-Information-about-Custom-Plugins)
+You can read more about setting config values for custom plugins in our [help docs](https://support.serverdensity.com/hc/en-us/articles/360001083186)
 
 Metrics
 ---

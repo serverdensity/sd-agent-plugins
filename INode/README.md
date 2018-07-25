@@ -4,7 +4,7 @@
 
 ### Documentation
 
-You can find the agent setup and writing a plugin script docs at [Writing a plugin - Linux, Mac and FreeBSD](https://support.serverdensity.com/hc/en-us/articles/201012088-Writing-a-plugin-Linux-Mac-and-FreeBSD)
+You can find the agent setup and writing a plugin script docs at [Writing a plugin - Linux, Mac and FreeBSD](https://support.serverdensity.com/hc/en-us/articles/360001066703)
 
 
 ### Installation

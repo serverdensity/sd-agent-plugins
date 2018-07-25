@@ -7,7 +7,7 @@ detailed list of metrics available for namespace and overall health&service [Aer
 Setup
 ---
 You will need to install the Aerospike python module in your sd-agent virtual environment to start gathering Aerospike metrics.  
-1. Ensure that you have properly configured custom plugins. If you are unsure, follow this [guide](https://support.serverdensity.com/hc/en-us/articles/213074438) 
+1. Ensure that you have properly configured custom plugins. If you are unsure, follow this [guide](https://support.serverdensity.com/hc/en-us/articles/360001083186) 
 1. Activate the vitual environment using the following command: `. /usr/share/python/sd-agent/bin/activate` 
 2. Once you have activated the virtual environment install the Aerospike module using the folowing command: `pip install aerospike`
 3. Use the `deactivate` command to close the virtual environment

@@ -2,7 +2,6 @@
 Server Density Plugin
 Mongodb
 
-https://www.serverdensity.com/plugins/mongodb/
 https://github.com/serverdensity/sd-agent-plugins/
 
 

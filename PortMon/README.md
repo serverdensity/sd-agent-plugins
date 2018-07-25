@@ -23,7 +23,7 @@ Ensure that your agent is setup for custom plugins - in your config.cfg you shou
 
 ```plugin_directory: /usr/local/sd-agent/plugins```
 
-See [information about custom plugins](https://support.serverdensity.com/hc/en-us/articles/213074438-Information-about-Custom-Plugins) for more information about custom plugins and configuring the agent for use with custom plugins.
+See [information about custom plugins](https://support.serverdensity.com/hc/en-us/articles/360001083186) for more information about custom plugins and configuring the agent for use with custom plugins.
 
 Then in `/etc/sd-agent/plugins.cfg` or `/etc/sd-agent/plugins.d/PortMon.cfg` add your config as required, an example is below:
 

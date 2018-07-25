@@ -6,7 +6,7 @@ This plugin attempts to determine the status of all network interfaces on the se
 1. Download [NetworkInterface.py](NetworkInterface.py) into your plugin directory. If you are unsure of your plugin directory location, check your config.cfg, located at: /etc/sd-agent/config.cfg
 1. Restart sd-agent
 
-More information regarding custom plugins can be found [here](https://support.serverdensity.com/hc/en-us/articles/213074438)
+More information regarding custom plugins can be found [here](https://support.serverdensity.com/hc/en-us/articles/360001083186)
 
 ## Status Mapping
  | State | Integer |
