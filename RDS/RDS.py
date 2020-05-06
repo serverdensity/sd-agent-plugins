@@ -167,7 +167,7 @@ class RDS(AgentCheck):
                         )
             except NoMetricError as e:
                 msg = 'RDS: {} was not available for {}'
-                self.log.exception(msg.format(metric, rds.identifier))
+                self.log.info(msg.format(metric, rds.identifier))
 
     def check(self, instance):
         self.instance = instance
