@@ -114,6 +114,7 @@ class RDS(AgentCheck):
             try:
                 stats = rds.get_metric(metric)
                 inst = rds.identifier
+                tags = tags + ["rds:{}".format(inst)]
                 if metric in self.byte_related:
                     # formatting to megabytes
                     stats = stats / 10**6
@@ -125,15 +126,15 @@ class RDS(AgentCheck):
                         mem_name = self.metrics[metric]
                         self.gauge(
                             "rds.mem.used",
-                            used_mem, tags + ["rds:{}".format(inst)]
+                            used_mem, tags
                             )
                         self.gauge(
                             "rds.mem.total",
-                            memory, tags + ["rds:{}".format(inst)]
+                            memory, tags
                             )
                         self.gauge(
                             "rds.mem.{}".format(mem_name),
-                            stats, tags + ["rds:{}".format(inst)]
+                            stats, tags
                             )
                     except IndexError as e:
                         msg = 'RDS: Unknown DB instance class "{}"'
@@ -144,25 +145,25 @@ class RDS(AgentCheck):
                     used = storage - stats
                     self.gauge(
                         self.metrics[metric],
-                        stats, tags + ["rds:{}".format(inst)]
+                        stats, tags
                         )
                     self.gauge(
                         "rds.used_diskusage",
-                        used, tags + ["rds:{}".format(inst)]
+                        used, tags
                         )
                     self.gauge(
                         "rds.total_diskusage",
-                        storage, tags + ["rds:{}".format(inst)]
+                        storage, tags
                         )
                 elif metric in self.byte_related:
                     self.gauge(
                         self.metrics[metric],
-                        stats, tags + ["rds:{}".format(inst)]
+                        stats, tags
                         )
                 else:
                     self.gauge(
                         self.metrics[metric],
-                        stats, tags + ["rds:{}".format(inst)]
+                        stats, tags
                         )
             except NoMetricError as e:
                 msg = 'RDS: {} was not available for {}'

@@ -5,57 +5,165 @@ This plugin allows to monitor AWS RDS instances. It is based on the [Percona Mon
 
 Every minute it pulls the 2 minute average from Cloudwatch and posts that to Server Density. The reason it pulls a 2 minute average rather than a 1 minute average is that when pulling a 1 minute average CPU utilization is not available.
 
-In the configuration you can get data from multiple endpoints by separating the endpoints through a comma. However, due to the nature of Boto making a request for each metric it's advisable to not have too many endpoints to allow the agent to make postbacks every minute.
+In the configuration you can get data from multiple endpoints by adding instances. However, due to the nature of Boto making a request for each metric it's advisable to not have too many endpoints to allow the agent to make postbacks every minute.
 
 Setup
 -----
 
-1. Install python-boto `sudo apt-get install python-boto`
-2. Configure the plugin in `/etc/sd-agent/plugins.cfg`
+1. Configure the plugin in `/etc/sd-agent/conf.d/RDS.yaml`
 ```
-[RDS]
-aws_access_key_id = YOUR_KEY_ID
-aws_secret_access_key = YOUR_ACCESS_KEY
-endpoints = RDS_ENDPOINT1,RDS_ENDPOINT2
-```
+init_config:
 
-3. Drop the RDS.py script in your plugin directory, most likely `/usr/local/share/sd-plugins/`. Check your `config.cfg` if you're unsure.
+instances:
+  - endpoint: "aws-endpoint"
+    aws_secret_access_key: "your-secret--access-key"
+    aws_access_key_id: "-your-access-key-id"
+    #tags:         #OPTIONAL
+    #  - your:tags
+```
+3. Drop the RDS.py script into the agent plugin directory at `/usr/share/python/sd-agent/checks.d/`.
 4. Restart the agent to apply changes `sudo service sd-agent restart`
 
 Troubleshooting
 ---------------
 
-You can run the script directly from the command line to collect the metrics:
+You can run the plugin individually with the agent with this command:
 
 ```
-$ python RDS.py -k YOUR_ACCESS_KEY -p YOUR_SECRET -e YOUR_ENDPOINT
-{
-  "somedbinstance_total_diskUsage": 5368709120.0,
-  "somedbinstance_database_connections": 0.0,
-  "somedbinstance_used_memory": 466810880.0,
-  "somedbinstance_free_storage_space": 4446867456.0,
-  "somedbinstance_network_transmit_throughput": 2634.76,
-  "somedbinstance_write_latency": 0.41,
-  "somedbinstance_read_latency": 0.2,
-  "somedbinstance_cpuutilization": 1.33,
-  "somedbinstance_maximum_used_transaction_ids": 616.0,
-  "somedbinstance_read_iops": 0.55,
-  "somedbinstance_write_throughput": 8328.87,
-  "somedbinstance_somedbinstance": 606930944.0,
-  "somedbinstance_oldest_replication_slot": -1.0,
-  "somedbinstance_network_received_throughput": 178.44,
-  "somedbinstance_write_iops": 0.78,
-  "somedbinstance_disk_queue_depth": 0.0,
-  "somedbinstance_transaction_logs_disk_usage": 570433832.0,
-  "somedbinstance_transaction_logs_generation": 0.0,
-  "somedbinstance_used_diskusage": 921841664.0,
-  "somedbinstance_total_memory": 1073741824,
-  "somedbinstance_read_throughput": 341.32,
-  "somedbinstance_swap_usage": 28672.0
-}
+$ sudo -u sd-agent /usr/share/python/sd-agent/agent.py check rds
+ {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.disk_queue_depth',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.db.connections',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.write_throughput',
+  1588772108,
+  0.00146774,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.read_latency',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.write_throughput',
+  1588772108,
+  0.00146774,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.write_iops',
+  1588772108,
+  0.14,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.free_storage_space',
+  1588772108,
+  20068.175872,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.free_storage_space',
+  1588772108,
+  20068.175872,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.used_diskusage',
+  1588772108,
+  -68.1758719999998,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.net.transmit_throughput',
+  1588772108,
+  0.0030705100000000003,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.mem.freeable_memory',
+  1588772108,
+  489.97376,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.bin_log_disk_usage',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.net.received_throughput',
+  1588772108,
+  0.00044559,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.mem.used',
+  1588772108,
+  510.02624,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.read_throughput',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.read_iops',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.net.received_throughput',
+  1588772108,
+  0.00044559,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.read_iops',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:testee', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.db.connections',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'}),
+ ('rds.io.disk_queue_depth',
+  1588772108,
+  0.0,
+  {'hostname': 'scw-reverent-roentgen',
+   'tags': ('i:tester', 'rds:database-1'),
+   'type': 'gauge'})]
+Events: 
+[]
+Service Checks: 
+[]
+Service Metadata: 
+[{}, {}]
+    rds
+    -----------
+      - instance #0 [OK]
+      - instance #1 [OK]
+      - Collected 36 metrics, 0 events & 0 service checks
+  
 ```
-
-Additional Notes
-----------------
-
-This plugin requires at least python-boto 2.35.2, Ubuntu 14.04 can use [Chris Lea's PPA](https://launchpad.net/~chris-lea/+archive/ubuntu/python-boto).

@@ -4,5 +4,5 @@ instances:
   - endpoint: "aws-endpoint"
     aws_secret_access_key: "your-secret--access-key"
     aws_access_key_id: "-your-access-key-id"
-    tags:
-      - your:tags
+    #tags:         OPTIONAL
+    #  - your:tags
